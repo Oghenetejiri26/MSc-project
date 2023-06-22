@@ -4,6 +4,7 @@
 
 setwd("/Users/teejay/Documents/data_bfmi_AIL")
 
+#Loading in the different files 
 phenotypes = read.table("allPhenotypes.txt", sep = "\t", header = TRUE, row.names = 1)
 
 genotypes = read.table("genotypes_gen28.txt", sep ="\t", check.names = FALSE)
@@ -21,7 +22,8 @@ onM <- which(map[, "Chr"] == "M")
 
 png("Figure1.png", width = 1024, height = 786)
 plot(x= c(0, nchr), y = c(0, maxchr), t = "n", 
-     xlab = "Chromosome", ylab = "Position (bp)")
+     xlab = "Chromosome", ylab = "Position (bp)",xaxt="n")
+     axis(1, at = 1:22, c(1:19, "X", "Y", "MT"))
 
 for(x in 1:nrow(map))  {
        #Every time for each element 
