@@ -1,5 +1,5 @@
 #
-#Code for MSc projects (August 3rd)
+#Code for MSc projects (August 7th)
 #
 
 setwd("/Users/teejay/Documents/data_bfmi_AIL")
@@ -16,7 +16,7 @@ LODs <- -log10(pvalues)
 LODs[1:10,]
 
 #Plot our QTL profile for model 1
-plot(LODs[,"Model1"])
+plot(LODs[,"Model2"])
 #computr the 95% threshold for significant effect 
 threshold <- -log10(0.05/22000)
 
@@ -25,11 +25,13 @@ mapL <- cbind(map, LODs)
 
 #Look at which markers are above our thresholds
 #Determine the Proximal.Top and Distal Marker 
-mapL[which(mapL[,"Model1"] > threshold),]
+mapL[which(mapL[,"Model2"] > threshold),]
+mapL[which(mapL[,"Chr"] == 1),]
+
 
 #How does my marker affect the bodyweight
 phenotypes = read.table("allPhenotypes.txt", sep = "\t", header = TRUE, row.names = 1)
-gen28 <- which(phenotypes[,"Gen."] == 28)
+gen28 <- which(phenotypes["Gen."] == 28)
 
 #Take only individuals that are Gen 28
 children <- phenotypes[gen28, ]
@@ -56,7 +58,7 @@ mother <- as.factor(children[, "Mutter"])
 season <- as.factor(children[, "bSeason"])
 
 #Adjust the bodyweights based on the model we used foer QTL mapping
-m1 <- lm(Y ~ mother + littersize)
+m2 <- lm(Y ~ littersize + season)
 
 #Compute the adjusted Bodyweight
 newY <- rep(NA, length(Y))
@@ -64,5 +66,5 @@ adj <- residuals(m1)
 newY[as.numeric(names(adj))] <- adj + mean(Y)
 
 #Show the adjusted bodyweight relative to the marker(MAKE SURE TO USE THE TOPMARKER)
-aa <- boxplot(newY ~ as.character(genotypes["backupUNC030041565",]))
+aa <- boxplot(newY ~ as.character(genotypes["UNC5048297",]))
 aa$stats
