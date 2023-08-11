@@ -115,7 +115,11 @@ rownames(pV) <- rownames(genotypes)
 colnames(pV) <- c("Model1", "Model2")
 write.table(pV,file = paste0("pvalues_", day, ".txt"),
             sep="\t", quote=FALSE, na= "")
-}            
+}    
+
+pvalues <- read.table("pvalues_d21.txt", sep= "\t", rownames = 1, header = TRUE)
+pvalues[1:10]
+
 LODs <- -log10(pV)
 m1bf <- p.adjust(pV[,1], "Bonferroni")
 b1bh <- p.adjust(pV[,1], "BH")
